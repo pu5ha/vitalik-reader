@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true }))
 // Load blogs.json for badge generation
 let blogsMap = new Map()
 try {
-  const blogsPath = join(__dirname, '..', 'public', 'blogs.json')
+  const blogsPath = join(__dirname, 'blogs.json')
   const blogsData = JSON.parse(readFileSync(blogsPath, 'utf-8'))
   blogsMap = new Map(blogsData.map(blog => [blog.id, blog]))
   console.log(`Loaded ${blogsMap.size} blogs for badge generation`)
