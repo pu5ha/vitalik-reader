@@ -72,10 +72,15 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not found' })
 })
 
-// Start server
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
-  console.log(`CORS origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`)
-})
+// Start server (only if not in Vercel serverless environment)
+if (process.env.VERCEL !== '1') {
+  const PORT = process.env.PORT || 3000
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
+    console.log(`CORS origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`)
+  })
+}
+
+// Export the Express app for Vercel serverless functions
+export default app
