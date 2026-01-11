@@ -4,6 +4,7 @@ import SummaryPanel from './SummaryPanel'
 import WalletConnect from './WalletConnect'
 import SignBlogButton from './SignBlogButton'
 import ReadersPanel from './ReadersPanel'
+import CommentsPanel from './CommentsPanel'
 
 function BlogView({ blogs }) {
   const { id } = useParams()
@@ -126,6 +127,12 @@ function BlogView({ blogs }) {
         >
           Readers ({readers.length})
         </button>
+        <button
+          className={`tab-btn ${activeTab === 'comments' ? 'active' : ''}`}
+          onClick={() => setActiveTab('comments')}
+        >
+          Comments
+        </button>
       </div>
 
       <div className="blog-view-content">
@@ -135,6 +142,12 @@ function BlogView({ blogs }) {
             readers={readers}
             loading={loadingReaders}
             blogId={blog.id}
+          />
+        )}
+        {activeTab === 'comments' && (
+          <CommentsPanel
+            blogId={blog.id}
+            blogTitle={blog.title}
           />
         )}
       </div>

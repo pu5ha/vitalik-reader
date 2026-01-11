@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { connectDB } from './config/db.js'
 import signatureRoutes from './routes/signatures.js'
+import commentRoutes from './routes/comments.js'
 
 // Load environment variables
 dotenv.config()
@@ -46,6 +47,7 @@ app.locals.blogsMap = blogsMap
 
 // Routes
 app.use('/api/signatures', signatureRoutes)
+app.use('/api/comments', commentRoutes)
 
 // Health check endpoint
 app.get('/health', (req, res) => {
