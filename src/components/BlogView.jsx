@@ -12,6 +12,7 @@ function BlogView({ blogs }) {
   const [activeTab, setActiveTab] = useState('summary')
   const [readers, setReaders] = useState([])
   const [loadingReaders, setLoadingReaders] = useState(false)
+  const [commentCount, setCommentCount] = useState(0)
 
   const blog = useMemo(() => {
     return blogs.find(b => b.id === id)
@@ -45,12 +46,33 @@ function BlogView({ blogs }) {
     }
   }, [blog?.id])
 
+  const fetchCommentCount = useCallback(async () => {
+    if (!blog?.id) return
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/comments/${blog.id}?limit=1&offset=0`
+      )
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      setCommentCount(data.totalComments || 0)
+    } catch (error) {
+      console.error('Failed to fetch comment count:', error)
+      setCommentCount(0)
+    }
+  }, [blog?.id])
+
   // Fetch readers on mount and when blog changes (for count display)
   useEffect(() => {
     if (blog?.id) {
       fetchReaders()
+      fetchCommentCount()
     }
-  }, [blog?.id, fetchReaders])
+  }, [blog?.id, fetchReaders, fetchCommentCount])
 
   // Refresh readers when switching to readers tab
   useEffect(() => {
@@ -58,6 +80,13 @@ function BlogView({ blogs }) {
       fetchReaders()
     }
   }, [activeTab, fetchReaders])
+
+  // Refresh comment count when switching to comments tab
+  useEffect(() => {
+    if (activeTab === 'comments') {
+      fetchCommentCount()
+    }
+  }, [activeTab, fetchCommentCount])
 
   if (!blog) {
     return (
@@ -131,7 +160,7 @@ function BlogView({ blogs }) {
           className={`tab-btn ${activeTab === 'comments' ? 'active' : ''}`}
           onClick={() => setActiveTab('comments')}
         >
-          Comments
+          Comments ({commentCount})
         </button>
       </div>
 
@@ -148,6 +177,7 @@ function BlogView({ blogs }) {
           <CommentsPanel
             blogId={blog.id}
             blogTitle={blog.title}
+            onCommentCountChange={setCommentCount}
           />
         )}
       </div>

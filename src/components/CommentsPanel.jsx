@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi'
 import CommentCard from './CommentCard'
 import CommentForm from './CommentForm'
 
-function CommentsPanel({ blogId, blogTitle }) {
+function CommentsPanel({ blogId, blogTitle, onCommentCountChange }) {
   const { address, isConnected } = useAccount()
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
@@ -46,6 +46,13 @@ function CommentsPanel({ blogId, blogTitle }) {
   useEffect(() => {
     fetchComments(true)
   }, [blogId, sortBy])
+
+  // Update parent component's comment count when it changes
+  useEffect(() => {
+    if (onCommentCountChange) {
+      onCommentCountChange(totalComments)
+    }
+  }, [totalComments, onCommentCountChange])
 
   const handleCommentPosted = () => {
     fetchComments(true)
