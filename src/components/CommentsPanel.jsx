@@ -56,8 +56,26 @@ function CommentsPanel({ blogId, blogTitle }) {
   }
 
   const handleLoadMore = () => {
-    setOffset(prev => prev + 50)
-    fetchComments(false)
+    const newOffset = offset + 50
+    setOffset(newOffset)
+
+    // Fetch with the new offset immediately
+    setLoading(true)
+    fetch(
+      `${import.meta.env.VITE_API_URL}/api/comments/${blogId}?sortBy=${sortBy}&limit=50&offset=${newOffset}`
+    )
+      .then(res => res.json())
+      .then(data => {
+        setComments(prev => [...prev, ...(data.comments || [])])
+        setTotalComments(data.totalComments || 0)
+        setHasMore(newOffset + (data.comments || []).length < data.totalComments)
+      })
+      .catch(error => {
+        console.error('Failed to fetch more comments:', error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   const formatDate = (dateStr) => {
