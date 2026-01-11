@@ -26,7 +26,7 @@ function BlogList({ blogs }) {
           <div className="logo">
             <h1>Vitalik's Essays</h1>
           </div>
-          <p className="tagline">A reading companion for exploring ideas on crypto, society, and technology</p>
+          <p className="tagline">Read, discuss, and engage with Vitalik's essays on crypto, society, and technology</p>
         </div>
       </header>
 
