@@ -119,10 +119,14 @@ export const generateBadge = async (userData, blogData) => {
   // Show signature below name in smaller text
   let addressOffset = 0
   if (userData.signature) {
+    ctx.font = 'italic 18px sans-serif'
+    ctx.fillStyle = '#8A8A8A'
+    ctx.fillText('Signature:', width / 2, contentY + 115)
+
     ctx.font = '24px monospace'
     ctx.fillStyle = '#B5B5B5'
-    ctx.fillText(formatSignature(userData.signature), width / 2, contentY + 130)
-    addressOffset = 50
+    ctx.fillText(formatSignature(userData.signature), width / 2, contentY + 145)
+    addressOffset = 65
   }
 
   // "has read" label
