@@ -190,7 +190,7 @@ router.get('/badges/:blogId/:address',
       )
 
       res.set('Content-Type', 'image/png')
-      res.set('Cache-Control', 'public, max-age=31536000') // Cache for 1 year
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate') // No cache for now
       res.send(badgeBuffer)
     } catch (error) {
       console.error('Badge generation error:', error)
