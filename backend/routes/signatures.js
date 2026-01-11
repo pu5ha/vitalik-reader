@@ -169,6 +169,13 @@ router.get('/badges/:blogId/:address',
         return res.status(404).json({ error: 'Signature not found' })
       }
 
+      console.log('Badge route - signature data:', {
+        userAddress: signature.userAddress,
+        ensName: signature.ensName,
+        hasSignature: !!signature.signature,
+        signaturePreview: signature.signature?.slice(0, 20)
+      })
+
       // Fetch blog data from request context (set by server.js)
       const blog = req.app.locals.blogsMap.get(blogId)
       if (!blog) {

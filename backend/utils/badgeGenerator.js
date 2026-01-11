@@ -35,6 +35,13 @@ const wrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
 }
 
 export const generateBadge = async (userData, blogData) => {
+  console.log('Badge generation - userData:', {
+    address: userData.address,
+    ensName: userData.ensName,
+    hasSignature: !!userData.signature,
+    signatureLength: userData.signature?.length
+  })
+
   // Canvas dimensions (Instagram-friendly 1080x1080)
   const width = 1080
   const height = 1080
