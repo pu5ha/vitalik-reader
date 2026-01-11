@@ -14,11 +14,6 @@ function ReadersPanel({ readers, loading, blogId }) {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
   }
 
-  const formatSignature = (sig) => {
-    if (!sig) return ''
-    return `${sig.slice(0, 10)}...${sig.slice(-8)}`
-  }
-
   const downloadBadge = async (reader) => {
     try {
       const url = `${import.meta.env.VITE_API_URL}/api/signatures/badges/${blogId}/${reader.userAddress}`
@@ -58,9 +53,6 @@ function ReadersPanel({ readers, loading, blogId }) {
             <div className="reader-info">
               <div className="reader-name">
                 {reader.ensName || formatAddress(reader.userAddress)}
-              </div>
-              <div className="reader-signature">
-                {formatSignature(reader.signature)}
               </div>
               <div className="reader-date">{formatDate(reader.signedAt)}</div>
             </div>
