@@ -16,6 +16,11 @@ function BlogView({ blogs }) {
     return blogs.find(b => b.id === id)
   }, [blogs, id])
 
+  // Scroll to top when blog changes
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [id])
+
   const fetchReaders = useCallback(async () => {
     if (!blog?.id) return
 
