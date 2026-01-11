@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import SummaryPanel from './SummaryPanel'
 import WalletConnect from './WalletConnect'
 import SignBlogButton from './SignBlogButton'
@@ -16,28 +16,34 @@ function BlogView({ blogs }) {
     return blogs.find(b => b.id === id)
   }, [blogs, id])
 
-  const fetchReaders = async () => {
-    if (!blog) return
+  const fetchReaders = useCallback(async () => {
+    if (!blog?.id) return
 
     setLoadingReaders(true)
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/signatures/${blog.id}`
       )
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
       const data = await response.json()
       setReaders(data.signatures || [])
     } catch (error) {
       console.error('Failed to fetch readers:', error)
+      setReaders([])
     } finally {
       setLoadingReaders(false)
     }
-  }
+  }, [blog?.id])
 
   useEffect(() => {
     if (activeTab === 'readers') {
       fetchReaders()
     }
-  }, [activeTab, blog?.id])
+  }, [activeTab, fetchReaders])
 
   if (!blog) {
     return (
