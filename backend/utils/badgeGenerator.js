@@ -1,4 +1,20 @@
-import { createCanvas } from 'canvas'
+import { createCanvas, registerFont } from 'canvas'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+// Register fonts
+try {
+  registerFont(join(__dirname, '..', 'fonts', 'Roboto-Bold.ttf'), { family: 'Roboto', weight: 'bold' })
+  registerFont(join(__dirname, '..', 'fonts', 'Roboto-Regular.ttf'), { family: 'Roboto', weight: 'normal' })
+  registerFont(join(__dirname, '..', 'fonts', 'Roboto-Italic.ttf'), { family: 'Roboto', style: 'italic' })
+  console.log('Fonts registered successfully')
+} catch (error) {
+  console.error('Error registering fonts:', error)
+}
 
 const formatAddress = (addr) => {
   return `${addr.slice(0, 6)}...${addr.slice(-4)}`
@@ -93,12 +109,12 @@ export const generateBadge = async (userData, blogData) => {
 
   // Header: "VITALIK READER" in white on burgundy background
   ctx.fillStyle = '#FFFFFF'
-  ctx.font = 'bold 64px "DejaVu Sans", Arial, sans-serif'
+  ctx.font = 'bold 64px Roboto'
   ctx.textAlign = 'center'
   ctx.fillText('VITALIK READER', width / 2, 160)
 
   // Subheader
-  ctx.font = '26px "DejaVu Sans", Arial, sans-serif'
+  ctx.font = '26px Roboto'
   ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
   ctx.fillText('CERTIFIED READER', width / 2, 205)
 
@@ -106,12 +122,12 @@ export const generateBadge = async (userData, blogData) => {
   const contentY = boxY + 80
 
   // "This certifies that" label
-  ctx.font = 'italic 22px "DejaVu Serif", Georgia, serif'
+  ctx.font = 'italic 22px Roboto'
   ctx.fillStyle = '#8A8A8A'
   ctx.fillText('This certifies that', width / 2, contentY)
 
   // ENS name or address (primary) - large and prominent
-  ctx.font = 'bold 72px "DejaVu Serif", Georgia, serif'
+  ctx.font = 'bold 72px Roboto'
   ctx.fillStyle = '#8B3A3A'
   const displayName = userData.ensName || formatAddress(userData.address)
   ctx.fillText(displayName, width / 2, contentY + 80)
@@ -119,23 +135,23 @@ export const generateBadge = async (userData, blogData) => {
   // Show signature below name in smaller text
   let addressOffset = 0
   if (userData.signature) {
-    ctx.font = 'italic 18px "DejaVu Sans", Arial, sans-serif'
+    ctx.font = 'italic 18px Roboto'
     ctx.fillStyle = '#8A8A8A'
     ctx.fillText('Signature:', width / 2, contentY + 115)
 
-    ctx.font = '24px "DejaVu Sans Mono", Courier, monospace'
+    ctx.font = '24px Roboto'
     ctx.fillStyle = '#B5B5B5'
     ctx.fillText(formatSignature(userData.signature), width / 2, contentY + 145)
     addressOffset = 65
   }
 
   // "has read" label
-  ctx.font = 'italic 22px "DejaVu Serif", Georgia, serif'
+  ctx.font = 'italic 22px Roboto'
   ctx.fillStyle = '#8A8A8A'
   ctx.fillText('has read', width / 2, contentY + 170 + addressOffset)
 
   // Blog title in a decorative style
-  ctx.font = 'bold 42px "DejaVu Serif", Georgia, serif'
+  ctx.font = 'bold 42px Roboto'
   ctx.fillStyle = '#1A1A1A'
   const titleY = contentY + 240 + addressOffset
   const numLines = wrapText(ctx, `"${blogData.title}"`, width / 2, titleY, 700, 55)
