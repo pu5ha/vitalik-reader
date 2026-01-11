@@ -93,12 +93,12 @@ export const generateBadge = async (userData, blogData) => {
 
   // Header: "VITALIK READER" in white on burgundy background
   ctx.fillStyle = '#FFFFFF'
-  ctx.font = 'bold 64px serif'
+  ctx.font = 'bold 64px Arial, Helvetica, sans-serif'
   ctx.textAlign = 'center'
   ctx.fillText('VITALIK READER', width / 2, 160)
 
   // Subheader
-  ctx.font = '26px sans-serif'
+  ctx.font = '26px Arial, Helvetica, sans-serif'
   ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
   ctx.fillText('CERTIFIED READER', width / 2, 205)
 
@@ -106,12 +106,12 @@ export const generateBadge = async (userData, blogData) => {
   const contentY = boxY + 80
 
   // "This certifies that" label
-  ctx.font = 'italic 22px serif'
+  ctx.font = 'italic 22px Georgia, Times, serif'
   ctx.fillStyle = '#8A8A8A'
   ctx.fillText('This certifies that', width / 2, contentY)
 
   // ENS name or address (primary) - large and prominent
-  ctx.font = 'bold 72px serif'
+  ctx.font = 'bold 72px Georgia, Times, serif'
   ctx.fillStyle = '#8B3A3A'
   const displayName = userData.ensName || formatAddress(userData.address)
   ctx.fillText(displayName, width / 2, contentY + 80)
@@ -119,23 +119,23 @@ export const generateBadge = async (userData, blogData) => {
   // Show signature below name in smaller text
   let addressOffset = 0
   if (userData.signature) {
-    ctx.font = 'italic 18px sans-serif'
+    ctx.font = 'italic 18px Arial, Helvetica, sans-serif'
     ctx.fillStyle = '#8A8A8A'
     ctx.fillText('Signature:', width / 2, contentY + 115)
 
-    ctx.font = '24px monospace'
+    ctx.font = '24px Courier, monospace'
     ctx.fillStyle = '#B5B5B5'
     ctx.fillText(formatSignature(userData.signature), width / 2, contentY + 145)
     addressOffset = 65
   }
 
   // "has read" label
-  ctx.font = 'italic 22px serif'
+  ctx.font = 'italic 22px Georgia, Times, serif'
   ctx.fillStyle = '#8A8A8A'
   ctx.fillText('has read', width / 2, contentY + 170 + addressOffset)
 
   // Blog title in a decorative style
-  ctx.font = 'bold 42px serif'
+  ctx.font = 'bold 42px Georgia, Times, serif'
   ctx.fillStyle = '#1A1A1A'
   const titleY = contentY + 240 + addressOffset
   const numLines = wrapText(ctx, `"${blogData.title}"`, width / 2, titleY, 700, 55)
@@ -151,7 +151,7 @@ export const generateBadge = async (userData, blogData) => {
 
   // Date in elegant format
   const dateY = underlineY + 60
-  ctx.font = '26px serif'
+  ctx.font = '26px Georgia, Times, serif'
   ctx.fillStyle = '#4A4A4A'
   const dateStr = new Date(userData.signedAt).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -190,7 +190,7 @@ export const generateBadge = async (userData, blogData) => {
   ctx.stroke()
 
   // Footer
-  ctx.font = 'italic 20px sans-serif'
+  ctx.font = 'italic 20px Arial, Helvetica, sans-serif'
   ctx.fillStyle = '#FFFFFF'
   ctx.fillText('vitalik.eth', width / 2, height - 50)
 
