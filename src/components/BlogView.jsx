@@ -39,6 +39,14 @@ function BlogView({ blogs }) {
     }
   }, [blog?.id])
 
+  // Fetch readers on mount and when blog changes (for count display)
+  useEffect(() => {
+    if (blog?.id) {
+      fetchReaders()
+    }
+  }, [blog?.id, fetchReaders])
+
+  // Refresh readers when switching to readers tab
   useEffect(() => {
     if (activeTab === 'readers') {
       fetchReaders()
