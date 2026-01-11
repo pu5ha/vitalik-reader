@@ -127,7 +127,7 @@ router.get('/:blogId',
         .sort({ signedAt: -1 })
         .skip(offset)
         .limit(Math.min(limit, 100)) // Max 100 per request
-        .select('userAddress ensName signedAt -_id')
+        .select('userAddress ensName signedAt signature -_id')
 
       const count = await Signature.countDocuments({ blogId })
 

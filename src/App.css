@@ -1238,6 +1238,13 @@ button {
   color: var(--ink-light);
 }
 
+.reader-signature {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  word-break: break-all;
+}
+
 .reader-date {
   font-family: var(--font-mono);
   font-size: 0.75rem;
