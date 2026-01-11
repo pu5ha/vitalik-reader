@@ -180,7 +180,8 @@ router.get('/badges/:blogId/:address',
         {
           address: signature.userAddress,
           ensName: signature.ensName,
-          signedAt: signature.signedAt
+          signedAt: signature.signedAt,
+          signature: signature.signature
         },
         {
           title: blog.title,

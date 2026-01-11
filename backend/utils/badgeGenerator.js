@@ -4,6 +4,11 @@ const formatAddress = (addr) => {
   return `${addr.slice(0, 6)}...${addr.slice(-4)}`
 }
 
+const formatSignature = (sig) => {
+  if (!sig) return ''
+  return `${sig.slice(0, 10)}...${sig.slice(-8)}`
+}
+
 // Helper function to wrap text to multiple lines
 const wrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
   const words = text.split(' ')
@@ -104,12 +109,12 @@ export const generateBadge = async (userData, blogData) => {
   const displayName = userData.ensName || formatAddress(userData.address)
   ctx.fillText(displayName, width / 2, contentY + 80)
 
-  // If ENS exists, show address below in smaller text
+  // Show signature below name in smaller text
   let addressOffset = 0
-  if (userData.ensName) {
+  if (userData.signature) {
     ctx.font = '24px monospace'
     ctx.fillStyle = '#B5B5B5'
-    ctx.fillText(formatAddress(userData.address), width / 2, contentY + 130)
+    ctx.fillText(formatSignature(userData.signature), width / 2, contentY + 130)
     addressOffset = 50
   }
 
